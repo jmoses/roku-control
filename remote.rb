@@ -1,53 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'net/http'
-require 'uri'
-require 'timeout'
+$: << 'lib'
+
 require 'termios'
-
-class Roku
-  attr_accessor :url
-
-  KEYS = [
-    :Up, :Down, :Left, :Right, :Select, :Back, :Play
-  ]
-
-  LETTERS = ('A'..'Z').to_a
-
-  def initialize(ip)
-    self.url = "http://#{ip}:8060/"
-  end
-
-  def valid?
-    call("", :get).body =~ /Roku/
-  end
-
-  KEYS.each do |key|
-    define_method(key.to_s.downcase) do
-      push key
-    end
-  end
-
-  LETTERS.each do |letter|
-    define_method("letter_#{letter.downcase}") do
-      push "Lit_#{letter}"
-    end
-  end
-
-  private
-    def call(path, method = :post)
-      if method == :get
-        Net::HTTP.get_response(URI(@url + path))
-      else
-        Net::HTTP.post_form(URI(@url + path), {})
-      end
-    end
-
-    def push(command)
-      call("keypress/#{command}")
-    end
-end
+require 'roku'
 
 def with_unbuffered_input
   old_attrs = Termios.tcgetattr(STDOUT)
@@ -64,7 +20,7 @@ ensure
   Termios::tcsetattr(STDOUT, Termios::TCSANOW, old_attrs)
 end
 
-roku = Roku.new(ARGV[0])
+roku = Roku::Server.new(ARGV[0])
 
 unless roku.valid?
   puts "That doesn't look like a roku player."
