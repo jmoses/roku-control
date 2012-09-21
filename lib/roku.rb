@@ -9,7 +9,9 @@ module Roku
     attr_accessor :url
 
     KEYS = [
-      :Up, :Down, :Left, :Right, :Select, :Back, :Play, :Home
+      :Up, :Down, :Left, :Right, :Select, :Back, :Play, :Home,
+      :Rev, :Fwd, :InstantReply, :Info, :Backspace, :Search,
+      :Enter
     ]
 
     LETTERS = ('A'..'Z').to_a
