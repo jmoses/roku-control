@@ -2,19 +2,38 @@ require "roku/version"
 require 'net/http'
 require 'uri'
 require 'timeout'
+require 'nokogiri'
 
 module Roku
   class Server
     attr_accessor :url
 
     KEYS = [
-      :Up, :Down, :Left, :Right, :Select, :Back, :Play
+      :Up, :Down, :Left, :Right, :Select, :Back, :Play, :Home
     ]
 
     LETTERS = ('A'..'Z').to_a
 
     def initialize(ip)
       self.url = "http://#{ip}:8060/"
+    end
+
+    def apps
+      @apps ||= begin
+        doc = Nokogiri::XML(call("query/apps", :get).body)
+
+        (doc/"//app").each_with_object({}) do |app, apps|
+          apps[app.text] = app['id']
+        end
+      end
+    end
+
+    def icon_for(app_id)
+      call("query/icon/#{app_id}", :get)
+    end
+
+    def launch(app_id)
+      call("launch/#{app_id}")
     end
 
     def valid?
