@@ -34,6 +34,10 @@ module Roku
       call("query/icon/#{app_id}", :get)
     end
 
+    def url_for_icon(app_id)
+      "#{url}query/icon/#{app_id}"
+    end
+
     def launch(app_id)
       call("launch/#{app_id}")
     end

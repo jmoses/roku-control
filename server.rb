@@ -7,10 +7,11 @@ before do
 end
 
 get "/" do
-  "<ul>" + @roku.apps.map {|name, id| "<li><img src='/icon/#{id}' />#{name}</li>"}.join + "</ul>"
+  "<ul>" + @roku.apps.map {|name, id| "<li><a href='/launch/#{id}'><img src='#{@roku.url_for_icon id}' />#{name}</a></li>"}.join + "</ul>"
 end
 
-get "/icon/:id" do
-  headers "Content-type" => "image/png"
-  body @roku.icon_for params[:id]
+get '/launch/:id' do
+  @roku.launch params[:id]
+  redirect '/'
 end
+
