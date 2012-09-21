@@ -1,6 +1,6 @@
 # Roku
 
-TODO: Write a gem description
+Gem to control a roku device
 
 ## Installation
 
@@ -18,7 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Just look at remote.rb
+
+It's a working example.
+
+    $ ruby remote.rb IP_OF_ROKU
 
 ## Contributing
 
