@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Roku::VERSION
   gem.authors       = ["Jon Moses"]
   gem.email         = ["jon@burningbush.us"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Ruby class to easily interact with a Roku device}
+  gem.summary       = %q{Control a roku device}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
