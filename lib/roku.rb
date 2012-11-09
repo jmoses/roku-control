@@ -3,6 +3,7 @@ require 'net/http'
 require 'uri'
 require 'timeout'
 require 'nokogiri'
+require 'roku/ssdp'
 
 module Roku
   class Server
@@ -15,6 +16,17 @@ module Roku
     ]
 
     LETTERS = ('A'..'Z').to_a
+
+    module ClassMethods
+      def search
+        Roku::SSDP.new.search.select do |resource|
+          resource.target == 'roku:ecp'
+        end.map do |roku|
+          Roku::Server.new(roku.location.host)
+        end
+      end
+    end
+    extend ClassMethods
 
     def initialize(ip)
       self.url = "http://#{ip}:8060/"
