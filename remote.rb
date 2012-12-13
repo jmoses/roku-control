@@ -20,6 +20,14 @@ ensure
   Termios::tcsetattr(STDOUT, Termios::TCSANOW, old_attrs)
 end
 
+if ARGV[0].nil?
+  puts "Found servers:"
+  Roku::Server.search.each do |server|
+    puts " #{server.url}"
+  end
+  exit 0
+end
+
 roku = Roku::Server.new(ARGV[0])
 
 unless roku.valid?
